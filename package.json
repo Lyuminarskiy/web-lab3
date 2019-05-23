@@ -16,8 +16,8 @@
     "dev:client": "browser-sync start --proxy localhost:30000 --port 30001 --files client --no-notify --no-ui"
   },
   "dependencies": {
+    "connect-history-api-fallback": "^1.6.0",
     "express": "^4.17.0",
-    "hbs": "^4.0.4",
     "mongoose": "^5.5.11"
   },
   "devDependencies": {
