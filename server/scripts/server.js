@@ -1,6 +1,7 @@
 const path = require("path");
 const express = require("express");
 const history = require("connect-history-api-fallback");
+const schemes = require("./schemes");
 
 
 // Порт по умолчанию.
@@ -33,13 +34,13 @@ const loggingMiddleware = ({method, url}, response, next) => {
 
 // Создаём и настраиваем сервер Express.
 express()
+  // Добавляем функцию вывода в консоль сервера информации о запросах.
+  .use(loggingMiddleware)
   // Добавляем функцию предоставления статических файлов.
   .use(staticMiddleware)
   // Добавляем функцию управления историей переходов.
   .use(historyMiddleware)
   // Ещё раз добавляем функцию для обработки случаев переадресации.
   .use(staticMiddleware)
-  // Добавляем функцию вывода в консоль сервера информации о запросах.
-  .use(loggingMiddleware)
   // Запускаем сервер.
   .listen(PORT, () => console.log(`Сервер запущен на порту ${PORT}`));
