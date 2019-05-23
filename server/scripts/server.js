@@ -1,7 +1,7 @@
 const path = require("path");
 const express = require("express");
 const history = require("connect-history-api-fallback");
-const schemes = require("./schemes");
+const bootstrap = require("./bootstrap");
 
 
 // Порт по умолчанию.
@@ -23,7 +23,9 @@ const staticMiddleware = express.static(clientPath);
 
 // Создаём функцию промежуточной обработки для поддержки на клиенте
 // режима работы роутера HTML5 History.
-const historyMiddleware = history({verbose: true});
+const historyMiddleware = history({
+  logger: (...info) => console.log(`${Date()} | ${info.join(" ")}`)
+});
 
 // Создаём функцию промежуточной обработки для вывода в консоль сервера
 // информации о запросах.
@@ -31,6 +33,9 @@ const loggingMiddleware = ({method, url}, response, next) => {
   console.log(`${Date()} | ${method} ${url}`);
   next();
 };
+
+// Обновляем содержимое базы данных.
+bootstrap();
 
 // Создаём и настраиваем сервер Express.
 express()
@@ -43,4 +48,5 @@ express()
   // Ещё раз добавляем функцию для обработки случаев переадресации.
   .use(staticMiddleware)
   // Запускаем сервер.
-  .listen(PORT, () => console.log(`Сервер запущен на порту ${PORT}`));
+  .listen(PORT,
+    () => console.log(`${Date()} | Сервер запущен на порту ${PORT}`));
