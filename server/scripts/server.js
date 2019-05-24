@@ -2,6 +2,7 @@ const path = require("path");
 const express = require("express");
 const history = require("connect-history-api-fallback");
 const bootstrap = require("./bootstrap");
+const apiRouter = require("./router");
 
 
 // Порт по умолчанию.
@@ -39,6 +40,7 @@ bootstrap();
 
 // Создаём и настраиваем сервер Express.
 express()
+  .use("/api", apiRouter)
   // Добавляем функцию вывода в консоль сервера информации о запросах.
   .use(loggingMiddleware)
   // Добавляем функцию предоставления статических файлов.

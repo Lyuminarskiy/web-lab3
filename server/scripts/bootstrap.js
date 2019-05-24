@@ -11,8 +11,14 @@ const DATABASE_PORT = 27017;
 // Адрес базы данных.
 const DATABASE_URL = `mongodb://localhost:${DATABASE_PORT}/${DATABASE_NAME}`;
 
-// Вспомогательная функция для записи результатов в консоль сервера.
-const log = (error, message) => error
+/**
+ * Возвращает обработчик запроса из базы данных, который обрабатывает ошибку
+ * и в случае успеха выводит в консоль сервера указанное сообщение.
+ *
+ * @param {String} message - Сообщение при отсутствии ошибки.
+ * @return {Function} Обработчик запроса.
+ */
+const log = (message) => (error) => error
   ? console.log(error)
   : console.log(`${Date()} | ${message}`);
 
@@ -30,17 +36,17 @@ const colors = require("../data/colors");
 module.exports = () => {
   // Подключаем базу данных.
   mongoose.connect(DATABASE_URL, {useNewUrlParser: true},
-    (err) => log(err, "База данных подключена"));
+    log("База данных подключена"));
 
   // Сбрасываем базу данных, чтобы затем загрузить свежие данные.
-  mongoose.connection.dropDatabase((err) => log(err, "База данных сброшена"));
+  mongoose.connection.dropDatabase(log("База данных сброшена"));
 
   // Загружаем свежие данные в базу данных.
-  schemes.Product.create(products, (err) => log(err, "Продукты загружены"));
-  schemes.Comment.create(comments, (err) => log(err, "Комментарии загружены"));
-  schemes.Review.create(reviews, (err) => log(err, "Отзывы загружены"));
-  schemes.User.create(users, (err) => log(err, "Пользователи загружены"));
-  schemes.Brand.create(brands, (err) => log(err, "Бренды загружены"));
-  schemes.Category.create(categories, (err) => log(err, "Категории загружены"));
-  schemes.Color.create(colors, (err) => log(err, "Цвета загружены"));
+  schemes.Product.create(products, log("Продукты загружены"));
+  schemes.Comment.create(comments, log("Комментарии загружены"));
+  schemes.Review.create(reviews, log("Отзывы загружены"));
+  schemes.User.create(users, log("Пользователи загружены"));
+  schemes.Brand.create(brands, log("Бренды загружены"));
+  schemes.Category.create(categories, log("Категории загружены"));
+  schemes.Color.create(colors, log("Цвета загружены"));
 };
