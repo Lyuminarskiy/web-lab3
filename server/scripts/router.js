@@ -1,49 +1,67 @@
 const express = require("express");
-const data = require("./data");
+const {
+  products,
+  comments,
+  reviews,
+  users,
+  brands,
+  categories,
+  colors
+} = require("./data");
+
 
 /**
- * Роутер, обрабатывающий запросы API.
+ * Возвращает переданную функцию обработки запроса клиента, к которой
+ * был добавлен третий аргумент, значением которого является
+ * параметр маршрута id.
+ *
+ * @param {Function} callback - Функция обработки запроса клиента.
+ * @return {Function} Функция обработки запроса клиента.
  */
+const withId = (callback) => (request, response) => callback(request,
+  response, request.params.id);
+
+// Роутер, обрабатывающий запросы API.
 module.exports = new express.Router()
   // Продукты.
-  .get("/products")
-  .get("/product/:id")
-  .get("/product/:id/category")
-  .get("/product/:id/brand")
-  .get("/product/:id/color")
-  .get("/product/:id/comments")
-  .get("/product/:id/reviews")
+  .get("/products", products.all)
+  .get("/product/:id", withId(products.byId))
+  .get("/product/:id/category", withId(products.category))
+  .get("/product/:id/brand", withId(products.brand))
+  .get("/product/:id/color", withId(products.color))
+  .get("/product/:id/comments", withId(products.comments))
+  .get("/product/:id/reviews", withId(products.reviews))
 
   // Комментарии.
-  .get("/comments")
-  .get("/comment/:id")
-  .get("/comment/:id/product")
-  .get("/comment/:id/author")
-  .get("/comment/:id/replies")
+  .get("/comments", comments.all)
+  .get("/comment/:id", withId(comments.byId))
+  .get("/comment/:id/product", withId(comments.product))
+  .get("/comment/:id/author", withId(comments.author))
+  .get("/comment/:id/replies", withId(comments.replies))
 
   // Отзывы.
-  .get("/reviews")
-  .get("/review/:id")
-  .get("/review/:id/product")
-  .get("/review/:id/author")
+  .get("/reviews", reviews.all)
+  .get("/review/:id", withId(reviews.byId))
+  .get("/review/:id/product", withId(reviews.product))
+  .get("/review/:id/author", withId(reviews.author))
 
   // Пользователи.
-  .get("/users")
-  .get("/user/:id")
-  .get("/user/:id/comments")
-  .get("/user/:id/reviews")
+  .get("/users", users.all)
+  .get("/user/:id", withId(users.byId))
+  .get("/user/:id/comments", withId(users.comments))
+  .get("/user/:id/reviews", withId(users.reviews))
 
   // Бренды.
-  .get("/brands")
-  .get("/brand/:id")
-  .get("/brand/:id/products")
+  .get("/brands", brands.all)
+  .get("/brand/:id", withId(brands.byId))
+  .get("/brand/:id/products", withId(brands.products))
 
   // Категории.
-  .get("/categories")
-  .get("/category/:id")
-  .get("/category/:id/products")
+  .get("/categories", categories.all)
+  .get("/category/:id", withId(categories.byId))
+  .get("/category/:id/products", withId(categories.products))
 
   // Цвета.
-  .get("/colors", data.colors.all)
-  .get("/color/:id", data.colors.byId)
-  .get("/color/:id/products", data.colors.products);
+  .get("/colors", colors.all)
+  .get("/color/:id", withId(colors.byId))
+  .get("/color/:id/products", withId(colors.products));

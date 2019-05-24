@@ -4,6 +4,7 @@ import Product from "./views/Product.js";
 import Order from "./views/Order.js";
 
 
+// eslint-disable-next-line no-undef
 const router = new VueRouter({
   mode: "history",
   routes: [

@@ -38,7 +38,7 @@ const loggingMiddleware = ({method, url}, response, next) => {
 // Обновляем содержимое базы данных.
 bootstrap()
   .then(() => {
-    // Создаём и настраиваем сервер Express.
+    // Создаём и настраиваем конвейер обработки запросов сервером Express.
     express()
     // Добавляем функцию вывода в консоль сервера информации о запросах.
       .use(loggingMiddleware)
