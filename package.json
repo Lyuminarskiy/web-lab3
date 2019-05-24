@@ -11,8 +11,8 @@
     "url": "https://github.com/Web-courses/Web-course-lab3-template.git"
   },
   "scripts": {
-    "start": "node server/scripts/server.js 80",
-    "dev:server": "nodemon server/scripts/server.js 30000",
+    "start": "node server/scripts/main.js 80 27017",
+    "dev:server": "nodemon server/scripts/main.js 30000 27017",
     "dev:client": "browser-sync start --proxy localhost:30000 --port 30001 --files client --no-notify --no-ui"
   },
   "dependencies": {

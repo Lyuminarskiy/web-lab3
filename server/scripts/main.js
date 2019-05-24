@@ -3,17 +3,8 @@ const express = require("express");
 const history = require("connect-history-api-fallback");
 const bootstrap = require("./bootstrap");
 const apiRouter = require("./router");
+const {server: {PORT, URL}} = require("./config");
 
-
-// Порт по умолчанию.
-const DEFAULT_PORT = 80;
-
-// Номер параметра командной строки со значением порта.
-const PORT_PARAMETER_NUMBER = 2;
-
-// Получаем номер порта через параметр командной строки.
-// Если параметр не был указан, то выбираем порт по умолчанию.
-const PORT = parseInt(process.argv[PORT_PARAMETER_NUMBER]) || DEFAULT_PORT;
 
 // Определяем путь к папке клиентской части.
 const clientPath = path.join(__dirname, "../../client");
@@ -52,5 +43,5 @@ bootstrap()
       .use(staticMiddleware)
     // Запускаем сервер.
       .listen(PORT,
-        () => console.log(`${Date()} | Сервер запущен на порту ${PORT}`));
+        () => console.log(`${Date()} | Сервер доступен по адресу ${URL}`));
   });

@@ -1,3 +1,4 @@
+const {status} = require("./config");
 const {
   Product,
   Comment,
@@ -7,7 +8,6 @@ const {
   Category,
   Color
 } = require("./schemes");
-const {http} = require("./constants");
 
 
 /**
@@ -24,7 +24,7 @@ const handle = (response) => [
   (error, data) => {
     if (error) {
       console.log(error);
-      response.status(http.INTERNAL_SERVER_ERROR);
+      response.status(status.INTERNAL_SERVER_ERROR);
     }
     else {
       response.json(data);

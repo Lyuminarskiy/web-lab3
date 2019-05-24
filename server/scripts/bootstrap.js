@@ -1,15 +1,7 @@
 const mongoose = require("mongoose");
 const schemes = require("./schemes");
+const {db: {URL}} = require("./config");
 
-
-// Имя базы данных.
-const DATABASE_NAME = "shop";
-
-// Порт базы данных по умолчанию.
-const DATABASE_PORT = 27017;
-
-// Адрес базы данных.
-const DATABASE_URL = `mongodb://localhost:${DATABASE_PORT}/${DATABASE_NAME}`;
 
 /**
  * Обрабатывает объект обещания. В случае успеха выводит переданное сообщение.
@@ -22,6 +14,7 @@ const log = (promise, message) => promise
   .then(() => console.log(`${Date()} | ${message}`))
   .catch((error) => console.log(error));
 
+// Синхронно загружаем данные из файлов JSON при импорте модуля.
 const products = require("../data/products");
 const comments = require("../data/comments");
 const reviews = require("../data/reviews");
@@ -35,7 +28,7 @@ const colors = require("../data/colors");
  */
 module.exports = () => Promise.all([
   // Подключаем базу данных.
-  log(mongoose.connect(DATABASE_URL, {useNewUrlParser: true}),
+  log(mongoose.connect(URL, {useNewUrlParser: true}),
     "База данных подключена"),
 
   // Сбрасываем базу данных, чтобы затем загрузить свежие данные.
