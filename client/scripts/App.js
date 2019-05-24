@@ -1,5 +1,10 @@
 const App = {
   name: "App",
+  mounted() {
+    fetch("/api/colors")
+      .then((data) => data.json())
+      .then((colors) => console.log(colors));
+  },
   template: `
     <div>
       <nav>
