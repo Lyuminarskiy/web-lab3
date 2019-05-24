@@ -1,35 +1,43 @@
 const express = require("express");
-const schemes = require("./schemes");
-const {http} = require("./constants");
-
-/**
- * Возвращает обработчик запроса из базы данных, который обрабатывает
- * ошибку и в случае успеха вызывает переданную функцию.
- *
- * @param {Request} request - Запрос клиента.
- * @param {Response} response - Ответ сервера.
- * @param {Function} callback - Функция манипуляции результатами запроса.
- * @return {Function} Обработчик запроса.
- */
-const handle = (request, response, callback) => (error, data) => {
-  if (error) {
-    console.log(error);
-    response.status(http.INTERNAL_SERVER_ERROR);
-  }
-  else {
-    response.json(callback(data));
-  }
-};
+const data = require("./data");
 
 /**
  * Роутер, обрабатывающий запросы API.
  */
 module.exports = new express.Router()
-  .get("/color", (request, response) => {
-    schemes.Color.find({}, handle(request, response,
-      (data) => data.map(({id, name}) => ({id, name}))));
-  })
-  .get("/color/:id", (request, response) => {
-    schemes.Color.findOne({id: request.params.id},
-      handle(request, response, ({id, name}) => ({id, name})));
-  });
+  // Продукты.
+  .get("/products")
+  .get("/product/:id")
+  .get("/product/:id/category")
+  .get("/product/:id/brand")
+  .get("/product/:id/color")
+  .get("/product/:id/comments")
+  .get("/product/:id/reviews")
+  // Комментарии.
+  .get("/comments")
+  .get("/comment/:id")
+  .get("/comment/:id/product")
+  .get("/comment/:id/author")
+  .get("/comment/:id/replies")
+  // Отзывы.
+  .get("/reviews")
+  .get("/review/:id")
+  .get("/review/:id/product")
+  .get("/review/:id/author")
+  // Пользователи.
+  .get("/users")
+  .get("/user/:id")
+  .get("/user/:id/comments")
+  .get("/user/:id/reviews")
+  // Бренды.
+  .get("/brands")
+  .get("/brand/:id")
+  .get("/brand/:id/products")
+  // Категории.
+  .get("/categories")
+  .get("/category/:id")
+  .get("/category/:id/products")
+  // Цвета.
+  .get("/colors", data.colors.all)
+  .get("/color/:id", data.colors.byId)
+  .get("/color/:id/products", data.colors.products);
