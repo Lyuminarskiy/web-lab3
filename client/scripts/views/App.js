@@ -1,21 +1,26 @@
+import Navbar from "../components/Navbar.js";
+
+
+/**
+ * Корневой компонент веб-приложения.
+ */
 const App = {
+  /**
+   * Название компонента.
+   */
   name: "App",
-  mounted() {
-    fetch("/api/colors")
-      .then((data) => data.json())
-      .then((colors) => console.log(colors));
-  },
+
+  /**
+   * Регистрация локальных компонентов.
+   */
+  components: {Navbar},
+
+  /**
+   * Строковый шаблон компонента.
+   */
   template: `
     <div>
-      <nav>
-        <router-link to="/">Главная</router-link>
-        <router-link to="/shop">Каталог</router-link>
-        <router-link to="/product">Продукт</router-link>
-        <router-link to="/order">Корзина</router-link>
-      </nav>
-
-      <p>*Нажимайте на ссылки для перехода между компонентами.</p>
-
+      <Navbar></Navbar>
       <router-view></router-view>
     </div>
   `
