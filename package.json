@@ -12,7 +12,7 @@
   },
   "scripts": {
     "start": "node server/scripts/main.js 80 27017",
-    "dev:server": "nodemon server/scripts/main.js 30000 27017",
+    "dev:server": "nodemon --watch server server/scripts/main.js 30000 27017",
     "dev:client": "browser-sync start --proxy localhost:30000 --port 30001 --files client --no-notify --no-ui"
   },
   "dependencies": {
