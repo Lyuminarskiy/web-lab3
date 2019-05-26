@@ -21,7 +21,9 @@ const {
 const withId = (callback) => (request, response) => callback(request,
   response, request.params.id);
 
-// Роутер, обрабатывающий запросы API.
+/**
+ * Роутер, обрабатывающий запросы API.
+ */
 module.exports = new express.Router()
   // Продукты.
   .get("/products", products.all)

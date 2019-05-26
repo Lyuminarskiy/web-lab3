@@ -1,6 +1,9 @@
 const {Schema, model} = require("mongoose");
 
 
+/**
+ * Схемы документов базы данных.
+ */
 module.exports = {
   /**
    * Схема продукта.

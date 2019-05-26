@@ -1,6 +1,14 @@
 const mongoose = require("mongoose");
-const schemes = require("./schemes");
 const {db: {URL}} = require("./config");
+const {
+  Product,
+  Comment,
+  Review,
+  User,
+  Brand,
+  Category,
+  Color
+} = require("./schemes");
 
 
 /**
@@ -15,13 +23,13 @@ const log = (promise, message) => promise
   .catch((error) => console.log(error));
 
 // Синхронно загружаем данные из файлов JSON при импорте модуля.
-const products = require("../data/products");
-const comments = require("../data/comments");
-const reviews = require("../data/reviews");
-const users = require("../data/users");
-const brands = require("../data/brands");
-const categories = require("../data/categories");
-const colors = require("../data/colors");
+const products = require("../database/products");
+const comments = require("../database/comments");
+const reviews = require("../database/reviews");
+const users = require("../database/users");
+const brands = require("../database/brands");
+const categories = require("../database/categories");
+const colors = require("../database/colors");
 
 /**
  * Обновляет содержимое базы данных.
@@ -35,11 +43,11 @@ module.exports = () => Promise.all([
   log(mongoose.connection.dropDatabase(), "База данных сброшена"),
 
   // Загружаем свежие данные в базу данных.
-  log(schemes.Product.create(products), "Продукты загружены"),
-  log(schemes.Comment.create(comments), "Комментарии загружены"),
-  log(schemes.Review.create(reviews), "Отзывы загружены"),
-  log(schemes.User.create(users), "Пользователи загружены"),
-  log(schemes.Brand.create(brands), "Бренды загружены"),
-  log(schemes.Category.create(categories), "Категории загружены"),
-  log(schemes.Color.create(colors), "Цвета загружены")
+  log(Product.create(products), "Продукты загружены"),
+  log(Comment.create(comments), "Комментарии загружены"),
+  log(Review.create(reviews), "Отзывы загружены"),
+  log(User.create(users), "Пользователи загружены"),
+  log(Brand.create(brands), "Бренды загружены"),
+  log(Category.create(categories), "Категории загружены"),
+  log(Color.create(colors), "Цвета загружены")
 ]);
